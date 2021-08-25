@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+{% block body %}
+<div class="container">
+  <h1>What chat room would you like to enter?</h1>
+  <input id="room-name-input" type="text" size="100" placeholder="Enter Room Name">
+  <button id="room-name-submit" class="but" value="Enter" >
+    <span></span><span></span><span></span><span></span>
+    Submit</button>
+  <!-- <input id="room-name-submit" type="button" value="Enter"> -->
+</div>
+<div class="bodycontainer">
+  <div class="contant">
+    <h1>NikChat connecting to the World</h1>
+    <p>A simplify way to chat with your friends in a group. NikChat provides simple and
+      effective way to communicate. Here We serve you a history less chatting plateform. Nobody can get record of chat
+      history.</p>
+  </div>
+  <div class="chatboy">
+    <img src="/static/images/chatboy.png" alt="ChatBoy" height="400px" width="400px">
+  </div>
+</div>
+
+<script>
+  // document.querySelector('#room-name-input').focus();
+  document.querySelector('#room-name-input').onkeyup = function (e) {
+    if (e.keyCode === 13) {  // enter, return
+      document.querySelector('#room-name-submit').click();
+    }
+  };
+
+  document.querySelector('#room-name-submit').onclick = function (e) {
+    var roomName = document.querySelector('#room-name-input').value;
+    window.location.pathname = 'chat\/' + roomName + '/';
+  };
+</script>
+{% endblock body %}

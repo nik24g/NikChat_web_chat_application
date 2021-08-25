@@ -1,0 +1,25 @@
+<script>
+    function cancelFriendRequest(friend_request_id, uiUpdateFunction){
+        var url = "{% url 'friend:friend-request-cancel' friend_request_id=24122000 %}".replace("24122000", friend_request_id)
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: url,
+            timeout: 5000,
+            success: function(data){
+                if(data.response == "Friend request cancelled"){
+                    // friend request cancelled success 
+                }
+                else{
+                    alert(data.response)
+                }
+            },
+            error: function(data){
+                alert("Somthing went wrong" + data.response)
+            },
+            complete: function(data){
+                uiUpdateFunction()
+            }
+        })
+    }
+</script>

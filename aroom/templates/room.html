@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+{% block body %}
+<link rel="stylesheet" href="/static/css/room.css">
+
+<section class="upper">
+    <div class="room_name">
+        <span>Room name: </span>
+        <span id="room_name"></span>
+    </div>
+    <div class="connected-user">
+        <span>Connections: </span>
+        <span id="connections"></span>
+    </div>
+    <div class="connection_status">
+        <span>Status: </span>
+        <span id="connection_status"></span>
+    </div>
+</section>
+<div id="chat-log"></div>
+<div class="input-container">
+    <input id="chat-message-input" type="text" size="100">
+
+    <button id="chat-message-submit" value="Send">
+        <img src="/static/icons/send.png" alt="Send">
+    </button>
+</div>
+
+
+{{ room_name|json_script:"room-name" }}
+<script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
+    function updateScroll() {
+        var element = document.getElementById("chat-log");
+        element.scrollTop = element.scrollHeight;
+    }
+    document.getElementById("room_name").innerHTML = roomName;
+
+    var block_to_insert;
+    var container_block;
+    var sending_message;
+
+    var request_user = "{{request.user.first_name}} {{request.user.last_name}}";
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        const received_message = data.message;
+        var connected_user_count = data.connected_user_count;
+        document.getElementById("connection_status").innerHTML = 'Connected';
+
+        if (connected_user_count != null){
+            document.getElementById("connections").innerHTML = connected_user_count;
+        }
+        if (received_message != null) {
+            block_to_insert = document.createElement('div');
+            if (received_message == sending_message) {
+                block_to_insert.className = 'right';
+                block_to_insert.innerHTML = received_message.split(":")[1];
+            }
+            else {
+                block_to_insert.className = 'left';
+                block_to_insert.innerHTML = "<p>" + received_message.split(":")[0] + "</p>" + received_message.split(":")[1];
+            }
+
+            container_block = document.getElementById('chat-log');
+            container_block.appendChild(block_to_insert);
+            updateScroll();
+        }
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+        document.getElementById("connection_status").innerHTML = 'Disconnected';
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+    
+    document.querySelector('#chat-message-submit').onclick = function (e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        sending_message = "{{request.user.first_name}} {{request.user.last_name}} : " + message;
+        chatSocket.send(JSON.stringify({
+            'message': sending_message,
+        }));
+        messageInputDom.value = '';
+    };
+</script>
+{% endblock body %}

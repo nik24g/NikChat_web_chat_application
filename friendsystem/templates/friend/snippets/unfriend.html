@@ -1,0 +1,26 @@
+<script>
+    function unfriend(user_id, uiUpdateFunction) {
+        var url = "{% url 'friend:unfriend' user_id=24122000 %}".replace("24122000", user_id)
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: url,
+            timeout: 5000,
+            success: function (data) {
+                if (data.response=="Unfriended"){
+                    // unfriended successfully
+                }
+                else{
+                    alert(data.response)
+                }
+            },
+            error: function (data) {
+                alert("Get error from ajex: " + data.response)
+            },
+            complete: function (data) {
+                uiUpdateFunction()
+            },
+
+        })
+    }
+</script>

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Find Friends{% endblock title %}
+{% block body %}
+<style>
+    .container img {
+        height: 200px;
+        width: 200px;
+        border-radius: 150px;
+    }
+
+    .profile {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: auto;
+    }
+    .container{
+        margin: auto;
+        margin-top: 20px;
+    }
+    .thumble{
+        margin: 0px 8px;
+    }
+</style>
+<form method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <input type="text" class="form-control" placeholder="search" name="find">
+        <input type="submit" value="Find">
+    </div>
+</form>
+
+<div class="container profile">
+    {% for i in info %}
+    <a href="{% url 'profile:profile' user_id=i.id %}" class="thumble">
+        <div>
+            <img src="/media/{{i.image}}" alt="">
+        </div>
+        <div>
+            <span>{{i.first_name}} {{i.last_name}}</span>
+        </div>
+    </a>
+    {% endfor %}
+
+</div>
+
+{% endblock body %}

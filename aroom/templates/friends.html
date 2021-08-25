@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Sign-up{% endblock title %}
+{% block body %}
+<style>
+        .container img {
+        height: 200px;
+        width: 200px;
+        border-radius: 150px;
+    }
+
+    .profile {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: auto;
+    }
+    .container{
+        margin: auto;
+        margin-top: 20px;
+    }
+    .thumble{
+        margin: 0px 8px;
+    }
+    #img{
+        border-radius: 150px;
+        padding: 0;
+    }
+    .profile>div{
+        margin: 10px 38px;
+    }
+</style>
+{% if friends != "Friend list is private" %}
+<div class="container profile">
+    {% for friend in friends %}
+    <div>
+        <div>
+            <a href="{% url 'profile:profile' user_id=friend.id %}">
+                <div type="submit" id='img'>
+                    <img src="/media/{{friend.image}}" alt="">
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'profile:profile' user_id=friend.id %}">
+                <div>
+                    <span>{{friend.first_name}} {{friend.last_name}}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endif %}
+{% endblock body %}

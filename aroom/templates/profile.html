@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock title %}
+{% block body %}
+
+<style>
+    section {
+        display: flex;
+        /* border: 2px solid pink; */
+        justify-content: center;
+    }
+
+    .upperbodycontainer {
+        display: flex;
+        flex-direction: column;
+        /* border: 2px solid red; */
+        margin: 20px;
+        height: 500px;
+        align-items: center;
+        /* background-color: #00002b; */
+        background-color: #ecd6bf;
+        color: #00002b;
+        border-radius: 35px;
+    }
+
+    .image_name_container {
+        text-align: center;
+        font-size: 24px;
+        margin: 25px;
+    }
+
+    .image_name_container img{
+        height: 175px;
+        width: 175px;
+        border-radius: 39px;
+    }
+
+    .lowerbodycontainer {
+        flex-direction: row;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin: auto;
+        padding: 10px;
+        border-radius: 35px;
+    }
+
+    .lowerbodycontainer a {
+        text-decoration: none;
+        color: inherit;
+
+    }
+
+    .friendcontainer,
+    .unfriend {
+        display: flex;
+    }
+
+    .friendlist,
+    #send_friend_request,
+    #unfriend,
+    #cancel_request,
+    .friendrequest,
+    #sendmessage {
+        color: rgb(211, 187, 196);
+        margin: 10px;
+        border: none;
+        width: 147px;
+        height: 49px;
+        text-align: center;
+        padding: inherit;
+        background-color: #2d0800;
+        border-radius: 8px;
+        text-align: center;
+        line-height: 3;
+    }
+
+    #cancel_request {
+        line-height: 2;
+        cursor: pointer;
+    }
+</style>
+<section>
+    <div class="upperbodycontainer">
+        <div class="contact">
+            <div class="image_name_container">
+                <img src="{{image}}" alt="DP">
+                <div class="name">
+                    <span>{{first_name}} {{last_name}}</span>
+                </div>
+            </div>
+            <div class="lowerbodycontainer">
+                {% if is_friend %}
+                <div class="unfriend">
+                    <button id="unfriend" onclick="triggerUnfriend('{{id}}')">Unfriend</button>
+                    <div id="sendmessage"><a href="{% url 'aroomurl:mychat' chat_id=id %}">Send message</a></div>
+                </div>
+                {% endif %}
+                {% if is_self == False and request_sent == -1 %}
+                <div class="send_request">
+                    <button id="send_friend_request">Add Friend</button>
+                </div>
+                {% endif %}
+                {% if is_self == False and request_sent == 1 %}
+                <div class="send_request" id="cancel_request">
+                    <span onclick="triggerCancelFriendRequest('{{pending_friend_request_id}}')">Cancel</span>
+                </div>
+                {% endif %}
+
+                {% if is_self %}
+                <div class="friendcontainer">
+                    <div class="friendlist">
+                        <a href="{% url 'aroomurl:friends' user_id=request.user.id %}">
+                            <div>
+                                <span>Friends({{friends|length}})</span>
+                            </div>
+                        </a>
+                    </div>
+                    {% if friend_requests %}
+                    <div class="friendrequest">
+                        <a href="{% url 'aroomurl:request' user_id=request.user.id %}">
+                            <div>
+                                <span>Friend Requests ({{friend_requests|length}})</span>
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% if is_self == False and request_sent == 0 %}
+                <div class="pendingrequest">
+                    <span>Accept friend request</span>
+                    <img src="/static/icons/checked.png"
+                        onclick="triggerAcceptFriendRequest('{{pending_friend_request_id}}')" alt="checked">
+                    <img src="/static/icons/cancel.png"
+                        onclick="triggerDeclineFriendRequest('{{pending_friend_request_id}}')" alt="cancel">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="info">
+            <div class="username">
+                <span>Username: {{username}}</span>
+            </div>
+            {% if is_self or is_friend %}
+            <div class="email">
+                <span>Email: {{email}}</span>
+            </div>
+            <div class="address">
+                <span>Address: {{address}}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+</section>
+<script>
+    function reload_page() {
+        location.reload();
+    }
+
+    var send_friend_request = document.getElementById("send_friend_request")
+    if (send_friend_request != null) {
+
+        send_friend_request.addEventListener("click", function () {
+            sendFriendRequest("{{id}}", reload_page)
+        })
+    }
+    function triggerAcceptFriendRequest(friend_request_id) {
+        acceptFriendRequest(friend_request_id, reload_page)
+    }
+    function triggerDeclineFriendRequest(friend_request_id) {
+        declineFriendRequest(friend_request_id, reload_page)
+    }
+    function triggerCancelFriendRequest(friend_request_id) {
+        cancelFriendRequest(friend_request_id, reload_page)
+    }
+    function triggerUnfriend(user_id) {
+        unfriend(user_id, reload_page)
+    }
+</script>
+{% include 'friend/snippets/send_friend_request.html' %}
+{% include 'friend/snippets/accept_friend_request.html' %}
+{% include 'friend/snippets/decline_friend_request.html' %}
+{% include 'friend/snippets/cancel_friend_request.html' %}
+{% include 'friend/snippets/unfriend.html' %}
+{% endblock body %}

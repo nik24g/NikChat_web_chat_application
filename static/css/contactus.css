@@ -1,0 +1,80 @@
+.social img{
+    width: 70px;
+    height: 70px;
+    filter: invert(90%);
+    margin: 44px;
+    border-radius: 40px;
+}
+.social img:hover{
+    box-shadow: 0 0 10px #2196f3, 0 0 40px #2196f3, 0 0 80px #2196f3;
+    
+}
+.icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.social h6{
+    width: 85px;
+}
+.social h6:hover{
+    color: #255784;
+    box-shadow: 0 0 10px #2196f3, 0 0 40px #2196f3, 0 0 80px #2196f3;
+    background: #2196f3;
+}
+.contactbody{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    /* border: 2px solid yellow; */
+    flex-wrap: wrap;
+
+
+}
+.contactbody h3{
+    font-family: 'Noto Sans TC', sans-serif;
+}
+.social{
+    /* border: 2px solid red; */
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.social h3{
+    text-transform: uppercase;
+}
+.contact-form{
+    /* border: 2px solid green; */
+    width: 50%;
+    
+}
+.contact-form input{
+    width: 80%;
+    height: 50px;
+}
+.contact-form label{
+    margin-top: 25px;
+}
+.contact-form h3{
+    text-transform: uppercase;
+}
+button{
+    margin-top: 20px;
+}
+/* .facebook{
+    border: 2px solid red;
+} */
+#message{
+    width: 80%;
+    height: 150px;
+    resize: none;
+}

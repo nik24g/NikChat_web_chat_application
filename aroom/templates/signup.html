@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Sign-up{% endblock title %}
+{% block body %}
+<style>
+    .signup {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2.1rem;
+        margin-bottom: 1.2rem;
+    }
+</style>
+<div class="signup">
+    <form class="p-5 border rounded-3 bg-light" id="signup-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Username">
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" name="fname" placeholder="First name">
+            <label for="floatingInput">First name</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" name="lname" placeholder="Last name">
+            <label for="floatingInput">Last name</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
+            <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="file" class="form-control" id="floatingInput" name="image" placeholder="Profile Picture">
+            <label for="floatingInput">Profile Picture</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword" name="re_password" placeholder="Repeat Password">
+            <label for="floatingPassword">Repeat Password</label>
+        </div>
+        
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign-up</button>
+        <hr class="my-4">
+        <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+    </form>
+</div>
+{% endblock body %}

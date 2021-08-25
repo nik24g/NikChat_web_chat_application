@@ -1,0 +1,69 @@
+.container input {
+    width: 50%;
+}
+::placeholder{
+    text-align: center;
+    /* background-image: linear-gradient(50deg, #2d0800, #00002b, #2d0800); */
+    color: linear-gradient(50deg, #2d0800, #00002b, #2d0800);
+}
+.container {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 10px;
+    font-family: 'Courgette', cursive;
+}
+
+.container button {
+    margin-top: 15px;
+}
+
+.bodycontainer {
+    display: flex;
+    /* border: 2px solid red; */
+    margin: 30px;
+    padding: 10px;
+    text-align: center;
+    justify-content: center;
+    font-family: 'Courgette', cursive;
+}
+
+/* .contant {
+    border: 2px solid blue;
+} */
+
+.bodycontainer h1 {
+    font-weight: bolder;
+}
+
+.bodycontainer p {
+    font-size: 30px;
+}
+
+.bodycontainer h1 {
+    font-size: 45px;
+}
+
+/* .chatboy {
+    border: 2px solid green;
+} */
+
+@media only screen and (max-width: 842px) {
+    .chatboy img {
+        height: 400px;
+        width: 200px;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .chatboy img {
+        height: 200px;
+    }
+
+    .bodycontainer {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}

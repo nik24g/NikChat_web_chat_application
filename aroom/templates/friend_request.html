@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Friend Requests{% endblock title %}
+{% block body %}
+<style>
+    .pendingrequest{
+        display: inline-flex;
+        padding: 0.5rem;
+    }
+    .request-info{
+        width: fit-content;
+        height: 50px;
+        padding: 0px 20px;
+        background-color: #ecd6bf;
+        color: #00002b;
+        line-height: 3;
+        text-align: center;
+        border-radius: 15px;
+        cursor: pointer;
+
+    }
+    #request-profile-image{
+        height: 2.75rem;
+        width: 1.85rem;
+        border-radius: 5px;
+    }
+    .pendingrequest a{
+        text-decoration: none;
+        color: inherit;
+    }
+    .accept-request img{
+        height: 3rem;
+        cursor: pointer;
+    }
+</style>
+{% for request in requests %}
+<div class="pendingrequest">
+    <a href="{% url 'profile:profile' user_id=request.sender.id %}">
+        <div class="request-info">
+            <img id="request-profile-image" src="/media/{{request.sender.image}}">
+            <span>{{request.sender.first_name}} {{request.sender.last_name}}</span>
+        </div>
+    </a>
+    <div class="accept-request">
+        <img src="/static/icons/checked.png" onclick="triggerAcceptFriendRequest('{{request.id}}')"
+        alt="checked">
+        <img src="/static/icons/cancel.png" onclick="triggerDeclineFriendRequest('{{request.id}}')"
+        alt="cancel">
+    </div>
+</div>
+{% endfor %}
+<script>
+    function reload_page() {
+        location.reload();
+    }
+    function triggerAcceptFriendRequest(friend_request_id){
+        acceptFriendRequest(friend_request_id, reload_page)
+    }
+    function triggerDeclineFriendRequest(friend_request_id){
+        declineFriendRequest(friend_request_id, reload_page)
+    }
+</script>
+{% include 'friend/snippets/accept_friend_request.html' %}
+{% include 'friend/snippets/decline_friend_request.html' %}
+{% endblock body %}
