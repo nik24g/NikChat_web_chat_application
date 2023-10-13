@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*2#@d$0#qfhh280am@6o3)2gj_3^+wt=kw_ywzvw213v54n*%x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['192.168.1.10', '127.0.0.1']
 
@@ -129,6 +129,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # STATIC_ROOT = "/home/nitin/Desktop/projectdir/pchat/static2/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
